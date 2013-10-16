@@ -48,48 +48,9 @@ colnames(sim_results)[7] = "feature"
 colnames(sim_results)[8] = "val"
 head(sim_results, 10)
 dim(sim_results)
-
-##go through and rename rand_type
-
-sim_results$test_type = NULL
-for (i in 1 : nrow(sim_results)){
-	if (sim_results$rand_type[i] %in% c("seq_match_kk", "crd_ttest", "efron_ttest", "post_match_crd_kk", "post_match_strat_kk", "ps_min_ttest", "strat_ttest")){
-		sim_results$test_type[i] = "Classic"
-	} else if (sim_results$rand_type[i] %in% c("seq_match_kk_lin", "crd_lin", "efron_lin", "post_match_crd_kk_lin", "post_match_strat_kk_lin", "ps_min_lin", "strat_lin")){
-		sim_results$test_type[i] = "Linear"
-	} else if (sim_results$rand_type[i] %in% c("crd_exact", "efron_exact", "post_match_crd_kk_exact", "post_match_strat_kk_exact", "ps_min_exact", "seq_match_kk_exact", "strat_exact")){
-		sim_results$test_type[i] = "Exact"
-	}
-}
-
-sim_results$allocation_method = NULL
-for (i in 1 : nrow(sim_results)){
-	if (sim_results$rand_type[i] %in% c("crd_exact", "crd_lin", "crd_ttest")){
-		sim_results$allocation_method[i] = "C"
-	} else if (sim_results$rand_type[i] %in% c("efron_ttest", "efron_lin", "efron_exact")){
-		sim_results$allocation_method[i] = "E"
-	} else if (sim_results$rand_type[i] %in% c("strat_ttest", "strat_lin", "strat_exact")){
-		sim_results$allocation_method[i] = "S"
-	} else if (sim_results$rand_type[i] %in% c("ps_min_ttest", "ps_min_lin", "ps_min_exact")){
-		sim_results$allocation_method[i] = "M"
-	} else if (sim_results$rand_type[i] %in% c("seq_match_kk", "seq_match_kk_lin", "seq_match_kk_exact")){
-		sim_results$allocation_method[i] = "SM"
-	} else if (sim_results$rand_type[i] %in% c("post_match_strat_kk", "post_match_strat_kk_lin", "post_match_strat_kk_exact")){
-		sim_results$allocation_method[i] = "SPM"
-	} else if (sim_results$rand_type[i] %in% c("post_match_crd_kk", "post_match_crd_kk_lin", "post_match_crd_kk_exact")){
-		sim_results$allocation_method[i] = "CPM"
-	}
-}
-
-write.csv(sim_results, "sim_results.csv")
-
-
 sim_results = read.csv("sim_results.csv")
 
 #simulation constants
-
-
-
 TEST_TYPES = c("Classic", "Linear", "Exact")
 SCENARIOS = c("NL", "LI", "ZE")
 ALLOCATION_METHODS = c("C", "E", "S", "M", "SM")
@@ -98,7 +59,7 @@ Ns_in_experiment = c(50, 100, 200)
 NUM_SIMs = 2000
 lambda = 0.10
 
-#conveniences
+#convenience objects
 powers = sim_results[sim_results$feature == "power", ]
 balances = sim_results[sim_results$feature == "avg_max_std_diff_bal", ]
 std_err_beta_Ts = sim_results[sim_results$feature == "std_err_beta_T", ]
@@ -184,7 +145,7 @@ draw_power_fig = function(lambda,
 	graphics.off()
 }
 
-
+#this will create a series of 9 PDF's which can be subfigured to create Figure 1
 draw_power_fig(lambda = 0.10)
 
 
@@ -217,6 +178,7 @@ for (n in Ns_in_experiment){
 	}
 }
 
+#copy these results below into LaTeX to regenerate the table
 balance_results
 
 
@@ -260,6 +222,7 @@ for (n in Ns_in_experiment){
 	}
 }
 
+#copy these results below into LaTeX to regenerate the table
 s_sq_sm_over_s_sq_competitor[["50"]][["NL"]]
 s_sq_sm_over_s_sq_competitor[["50"]][["LI"]]
 s_sq_sm_over_s_sq_competitor[["50"]][["ZE"]]
@@ -320,6 +283,7 @@ for (n in Ns_in_experiment){
 	}
 }
 
+#copy these results below into LaTeX to regenerate the table
 size_results[["50"]][["NL"]]
 size_results[["50"]][["LI"]]
 size_results[["50"]][["ZE"]]
@@ -365,7 +329,7 @@ for (n in Ns_in_experiment){
 	}
 }
 
-
+#copy these results below into LaTeX to regenerate the table
 bias_results[["50"]][["NL"]]
 bias_results[["50"]][["LI"]]
 bias_results[["50"]][["ZE"]]
@@ -381,7 +345,7 @@ bias_results[["200"]][["ZE"]]
 #### 
 #### 
 #### 
-#### Regenerate Supplementary Materials: Figures 1-10 - Power results by lambda
+#### Regenerate Supplementary Materials: Figures 1-8 - Power results by lambda
 #### 
 #### 
 #### 
@@ -390,6 +354,3 @@ LAMBDAS = c(0.01, 0.025, 0.05, 0.075, 0.1, 0.2, 0.35, 0.5)
 for (l in LAMBDAS){
 	draw_power_fig(lambda = l, allocation_methods = c("C", "E", "S", "M", "SPM", "SM"))
 }
-
-
-powers[powers$model_name == "NL" & powers$n == 200 & powers$test_type == "Exact" & powers$beta_T == 1, ]

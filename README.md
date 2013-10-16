@@ -1,29 +1,26 @@
-Sequential Matching Simulation Code and Results
-=================================
+## Sequential Matching Simulation Code and Results
 
 By Adam Kapelner and Abba Krieger
+
 October 15, 2013
 
 
 We provide the simulation code and results for the Biometrics paper "Matching on-the-fly: Sequential Allocation with Higher Power and Efficiency."
 
 
-Figures and Tables Replication
----------------
+### Figures and Tables Replication
 
 To replicate the figures and tables found in  "Matching on-the-fly: Sequential Allocation with Higher Power and Efficiency" and its accompanying supplementary materials document, open the file `make_plots_and_tables.R` and source lines 1-100 in `R`. The rest of the script is split up by table and figure; source the relevant portions to create the table or figure.
 
 
-Simulation Replication
---------------
+### Simulation Replication
 
 To replicate the simulations found in Section 3 of the paper, we recommend using a computer cluster powered by a grid engine system. We include the file `run_sim_on_grid.sh` which will run the entire set of 1,998 simulations on a Sun Grid Engine.
 
 If you do not have a cluster, you can replicate by running `R --args iter_num=1 < all_match_sims.R`. You need to vary `iter_num` from 1-1998.
 
 
-Custom Simulations
------------------------
+### Custom Simulations
 
 The simulation code was written to be modular and flexible. Below are the parameters that can be changed:
 
