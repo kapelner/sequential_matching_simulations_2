@@ -39,7 +39,7 @@ In addition to parameters, the structure of the simulation i.e. the response mod
 
 * `data_and_err_gen`: The parameter X in the filename `data_and_err_gen_<X>.R` which controls how the fixed design matrix and errors are generated. In this file, you must specify variables `p`, the number of covariates, `x_s`, the design matrix of size n times p, and `errors`, of size n which are the disturbances.
 * In the file `sim_type_series_of_quadratics_and_interactions.R`, you can specify the following options:
-  * `response_model`: The parameter X in filename `create_response_<X>.R` which controls how the design matrix combines with the errors to create the response. In this file, you must specify `z` as a function of `x_s' and `beta`'s, which is the covariate function. Then you must specify `y` as a function of `z`, `beta_T` , the effect of the treatment and `indic_T`, the vector of allocations.
+  * `response_model`: The parameter X in filename `create_response_<X>.R` which controls how the design matrix combines with the errors to create the response. In this file, you must specify `z` as a function of `x_s` and `beta`'s, which is the covariate function. Then you must specify `y` as a function of `z`, `beta_T` , the effect of the treatment and `indic_T`, the vector of allocations.
   * `sim_param_mat`: this is a matrix of beta's which can be varied. The beta's are called upon in the response model to generate `y` (see previous parameter). This matrix is then augmented by `treatment_effects`, `Z_TESTS`, `ns_to_test` and `prob_match_cutoff_lambdas`.
 
 To run a block of simulations, `inner_simulations.R` is called upon. Here, we loop over `Nsim_per_block` where results are recorded for each simulation.
